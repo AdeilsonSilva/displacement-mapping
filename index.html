@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <!-- Introdução -->
+				<section>
+                    <h1>Displacement Mapping</h1>
+                    <h3>Universidade Federal da Bahia</h3>
+                    <p>
+						<small>MATA65 - Computação Gráfica / 2017.1</small>
+					</p>
+                </section>
+                <!-- Aspectos Teóricos -->
+				<section>
+                    <h1>Aspectos Teóricos</h1>
+                </section>
+                <!-- Aspectos Práticos -->
+                <section>
+                    <h1>Aspectos Práticos</h1>
+                </section>
+                <!-- Referências -->
+                <section>
+                    <h1>Referências</h1>
+					<ul>
+						<li>
+                            <a href="https://pdfs.semanticscholar.org/4ec1/914e7d2319be9bc6da58dd57e5aa16be6c9c.pdf">
+                                Szirmay‐Kalos, L., & Umenhoffer, T. (2008, September). Displacement Mapping on the GPU
+                                Rafael Brasileiro
+                            </a>
+                        </li>
+						<li><a href="https://threejs.org/examples/webgl_materials_displacementmap.html">Three JS - Displacement Mapping</a></li>
+					</ul>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+                // Display controls in the bottom right corner
+            	controls: true,
+                // Display a presentation progress bar
+            	progress: true,
+            	// Set default timing of 2 minutes per slide
+            	defaultTiming: 120,
+            	// Display the page number of the current slide
+            	slideNumber: false,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
