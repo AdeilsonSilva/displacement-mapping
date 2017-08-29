@@ -24,14 +24,14 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-                <section data-autoslide="1" id="dummy">
-                    <!--
-                        Não é pra ter nada aqui, essa section só existe porque
-                        o reveal.js não lida muito bem com vídeos no primeiro slide. LoL
-                    -->
-                </section>
                 <!-- Introdução -->
                 <section id="intro">
+                    <section data-autoslide="1" id="dummy">
+                        <!--
+                            Não é pra ter nada aqui, essa section só existe porque
+                            o reveal.js não lida muito bem com vídeos no primeiro slide. LoL
+                        -->
+                    </section>
                     <section data-background-video="images/intro.ogv" data-background-video-loop="loop">
                         <h1 style="color:#FFF;">Displacement Mapping</h1>
                         <h3 style="color:#FFF;">Universidade Federal da Bahia</h3>
@@ -59,27 +59,28 @@
                     </section>
                     <!-- Conceito de Displacement Mapping -->
                     <section>
-                        <h3>Mas o que é displacement mapping?</h3>
+                        <h2>O que é displacement mapping?</h2>
                         <aside class="notes">
                             Então, afinal de contas, o que é DM?
                         </aside>
 					</section>
-                    <section data-background-video="images/exp-dm.ogv">
-                        <p>Szirmay-Kalos <i>et. al.</i></p>
+                    <section data-background-video="images/exp-dm.ogv" data-background-video-loop="loop">
+                        <!-- <p>Szirmay-Kalos <i>et. al.</i></p>
                         <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
     						&ldquo;
                                 Displacement mapping provides high frequency geometric detail by adding mesostructure properties to the macrostructure model.
                                 This is done by modulating the smooth macrostructure surface by a height map describing the difference between the macrostructure
                                 and the mesostructure models. [1]
                             &rdquo;
-    					</blockquote>
+    					</blockquote> -->
                         <aside class="notes">
-                            * fazer referência ao vídeo do fundo *
+                            Dentre as várias formas de aplicar uma textura a um objeto,
+                            displacement mapping se caracteriza por modificar a geometria do objeto texturizado.
                         </aside>
                     </section>
                     <!-- Motivação e Objetivo do artigo -->
                     <section>
-                        <h2>Mas por que falar de displacement mapping?</h2>
+                        <h2>Por que falar de displacement mapping?</h2>
 					</section>
                     <section>
                         <p>A motivação para o uso de displacement mapping é reproduzir uma estrutura de maneira detalhada
@@ -87,51 +88,82 @@
 					</section>
                     <section>
                         <p>
-                            Szirmay‐Kalos [1] faz uma revisão sobre as principais técnicas de DP disponíveis na literatura,
+                            Szirmay‐Kalos [1] faz uma revisão sobre as principais técnicas de DM disponíveis na literatura,
                             comparando as técnicas utilizadas e os resultados obtidos pelos autores, apresentando o estado da
                             arte da época.
                         </p>
 					</section>
                     <!-- Teoria de Displacement Mapping -->
                     <section>
-                        <h2>O que mais eu preciso saber?</h2>
+                        <h2>O que mais é preciso saber?</h2>
 					</section>
                     <section>
-                        <section>
-                            <img width="1056" height="368" data-src="images/intro.png" alt="introdução">
-                        </section>
-                        <ul>
-                            <li>Macroestrutura</li>
-                            <li>Mesoestrutura</li>
-                            <li>Microestrutura</li>
-                        </ul>
-					</section>
-                    <section>
-                        <h3>Para utilizar displacement mapping eu preciso:</h3>
-                        <ul>
-                            <li>.obj</li>
-                            <li>mapa de altura</li>
-                        </ul>
+                        <img width="1056" height="368" data-src="images/intro.png" alt="introdução">
+                        <p class="fragment grow">Macroestrutura</p>
+                        <p class="fragment grow">Mesoestrutura</p>
+                        <p class="fragment grow">Microestrutura</p>
+                        <aside class="notes">
+                            pontos perpendiculares à normal da macroestrutura;
+                            pode ser no vertex ou no fragment shader;
+                            as normais recalculadas são utilizadas p/ iluminação;
+                        </aside>
 					</section>
                     <section>
                         <img width="1324" height="208" data-src="images/f1.png">
-                        <p>Fórmula utilizada para o cálculo da mesoestrutura.</p>
+                        <p>Equação utilizada para o cálculo da mesoestrutura.</p>
+                        <aside class="notes">
+                            p -> ponto da macro;
+                            r -> ponto da meso;
+                            u, v -> coord. da textura [0, 1];
+                            n -> normal da macro;
+                        </aside>
                     </section>
                     <section>
-                        <h3>Você conhece a fórmula parametrizada da sua geometria?</h3>
+                        <h2>Você conhece a fórmula parametrizada da sua geometria?</h2>
                     </section>
                     <section>
-                        <h3>E caso você não conheça?</h3>
+                        <img width="1324" height="150" data-src="images/f2.png">
+                        <img width="1324" height="150" data-src="images/f2.5.png">
+                        <img width="1324" height="150" data-src="images/f4.png">
+                        <aside class="notes">
+                            T aponta na direção u;
+                            B aponta na direção v;
+                            a malha de triângulos é uma aproximação linear da equação paramétrica da mesoestrutura;
+                            calculando os primeiros termos da série de Taylor, temos;
+                        </aside>
                     </section>
                     <section>
-                        <h3>O mapa de altura é armazenado de forma compactada.</h3>
+                        <h2>E caso você não conheça?</h2>
+                    </section>
+                    <section>
+                        <img width="1324" height="150" data-src="images/f5.png">
+                        <img width="1324" height="150" data-src="images/f6.png">
+                        <img width="1324" height="150" data-src="images/f7.png">
+                        <aside class="notes">
+                            T aponta na direção u;
+                            B aponta na direção v;
+                            a malha de triângulos é uma aproximação linear da equação paramétrica da mesoestrutura;
+                            calculando os primeiros termos da série de Taylor, temos;
+                        </aside>
+                    </section>
+                    <section>
+                        <h3>Independente disso, a normal é dada por:</h3>
+                        <img data-src="images/normal.png">
+                    </section>
+                    <section>
+                        <h2>O mapa de altura é armazenado de forma compactada.</h2>
                     </section>
                     <section>
                         <img width="780" height="126" data-src="images/f3.png">
                         <p>Transformação dos valores do mapa de altura para o espaço de valores real.</p>
+                        <aside class="notes">
+                            mapa de altura é uma textura em escala de cinza;
+                            8 bits de precisão;
+                            range [0, 1];
+                        </aside>
                     </section>
-                    <section>
-                        <h3>E a iluminação? Como eu calculo?</h3>
+                    <!-- <section>
+                        <h2>E a iluminação? Como eu calculo?</h2>
                     </section>
                     <section>
                         <h2>Cálculo da normal da mesosestrutura:</h2>
@@ -143,18 +175,150 @@
                             // get model space normal vector
                             float3 mNormal = normalize(N+t*dhdu+b*dhdv);
     					</code></pre>
-                    </section>
+                    </section> -->
                     <section>
-                        <h3>Displacement Mapping no Vertex Shader</h3>
+                        <h2>Displacement Mapping no Vertex Shader</h2>
 					</section>
                     <section>
-                        <h3>Displacement Mapping no Fragment Shader</h3>
+                        <img width="1040" height="486" data-src="images/per-vertex-dm.png">
+                        <pre><code class="hljs" data-trim>
+                            float h = tex2Dlod(hMap, uv).a * SCALE + BIAS;
+                            float3 mPos = Position + Normal * h;
+                            hPos = mul(float4(mPos,1), WorldViewProj);
+    					</code></pre>
+                        <aside class="notes">
+                            os vértices dos triângulos são deslocados na direção da normal da macro;
+                            os vértices deslocados recebem as normais das mesoestrutura;
+                            acessar a textura no vertex só é possível a partir do Shader Model 3.0;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Existem problemas com essa abordagem:</h3>
+                        <p class="fragment grow">Um objeto altamente tesselado é necessário.</p>
+                        <p class="fragment">GPUs possuem mais poder de processamento por fragmento. (Unified Shader Architecture)</p>
+                        <p class="fragment">GPUs antigas não permitem acessar textura no vertex shader.</p>
+                        <p class="fragment grow">Processamento no VS x no FS</p>
+                        <aside class="notes">
+                            VS executa uma vez p/ cada vértice;
+                            FS executa uma vez por pixel na tela;
+                            VS acaba processando elementos invisíveis na tela;
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Displacement Mapping no Fragment Shader</h2>
+					</section>
+                    <section>
+                        <img width="1040" height="486" data-src="images/per-pixel-dm.png">
+                        <aside class="notes">
+                            Muito tarde p/ modificar a geometria;
+                            "Ray tracing like" algorithm;
+                            Projetar raios no mapa de altura p/ obter coordenadas do ponto visível;
+                        </aside>
+					</section>
+                    <section>
+                        <img width="1040" height="486" data-src="images/per-pixel-dm-ray-tracing.png">
+                        <img width="512" height="79" data-src="images/f10.png">
+                        <aside class="notes">
+                            Vetor V intercepta o mapa de altura em muitos pontos;
+                            Tendo a origem do Vetor V é possível calcular todos os pontos de interseção, a partir do parametro T;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Existem problemas com essa abordagem:</h3>
+                        <p class="fragment grow">Necessário realizar busca no mapa de altura.</p>
+                        <p class="fragment grow">Múltiplas soluções para a equação anterior.</p>
+                        <p class="fragment grow">Pontos do mapa de altura podem ser ignorados por não serem processados pelo FS.</p>
+                        <p class="fragment grow">Mudança na profundidade do ponto desenhado.</p>
+                        <aside class="notes">
+                            O que está sendo desenhado é um ponto mais próximo da câmera, então a mudança de profundidade não gera erro
+                            de visualização.
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>Métodos não-iterativos x Métodos Iterativos</h2>
+                        <aside class="notes">
+                            Estão relacionados aos dois primeiros problemas do slide anterior;
+                            Não-iterativos fazem buscas locais no mapa de textura mas podem dar resultados ruins;
+                            Iterativos buscam globalmente na textura (vários acessos), mais precisos, pior performance;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Não-iterativos</h3>
+                        <h5>Parallax mapping</h5>
+                        <img data-src="images/parallax.png">
+                        <p><small>Kaneko T. <i>et. al.</i>, "Detailed shape representation with parallax mapping.", ICAT 2001</small></p>
+                        <aside class="notes">
+                            Assume altura constante na vizinhaça de u,v;
+                        </aside>
+					</section>
+                    <section>
+                        <h2>Métodos Não-iterativos</h2>
+                        <h3>Bump mapping x Parallax mapping</h3>
+                        <img height="400" data-src="images/bumpxparallax.png">
+                        <aside class="notes">
+                            No artigo o autor considera bump um DM extremamente simplificado;
+                        </aside>
+					</section>
+                    <section>
+                        <h2>Métodos Iterativos</h2>
+                        <h3>Seguros x Inseguros</h3>
+                        <aside class="notes">
+                            Unsafe obtem a interseção, não necessariamente a mais próxima (melhor performance);
+                            Safe obtém o "primeiro" ponto (mais preciso), mesmo que hajam várias interseções;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>Inseguros - Binary Search</h5>
+                        <img height="400" data-src="images/binary.png">
+                        <p><small>Policarpo F., <i>et. al.</i>, "Real-time relief mapping on arbitrary polygonal surfaces.", SIGGRAPH 2005</small></p>
+                        <aside class="notes">
+                            Busca binária no vetor V pelo ponto de maior altura;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>Inseguros - Binary Search</h5>
+                        <img height="400" data-src="images/binary-results.png">
+                        <aside class="notes">
+                            "The binary search procedure quickly converges to an intersection but may not
+                            result in the first intersection that has the maximum height value";
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>"Quasi-safe" - Linear Search</h5>
+                        <img height="400" data-src="images/linear.png">
+                        <p><small>Levoy M., <i>et. al.</i>, "Efficient ray tracing of volume data.", ACM TOG, 1990</small></p>
+                        <aside class="notes">
+                            "quasi-safe" pq depende do tamanho do passo dado;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>"Quasi-safe" - Linear Search</h5>
+                        <img height="400" data-src="images/linear-results.png">
+                        <aside class="notes">
+                            A robustez depende do passo, mais passos = maior precisão = maior custo;
+                        </aside>
+					</section>
+                    <section>
+                        <h3>Métodos Combinados</h3>
+                        <h5>Relief Mapping</h5>
+                        <img height="400" data-src="images/relief-results.png">
+                        <p><small>Policarpo F., <i>et. al.</i>, "Real-time relief mapping on arbitrary polygonal surfaces.", SIGGRAPH 2005</small></p>
+                        <aside class="notes">
+                            Primeiro faz o linear, encontra dois pontos e faz o binary;
+                        </aside>
 					</section>
                 </section>
                 <!-- Aspectos Práticos -->
                 <section id="pratica">
                     <section data-background-video="images/pratica.ogv" data-background-video-loop="loop">
                         <h1>Aspectos Práticos</h1>
+                    </section>
+                    <section>
+                        <h2>Como utilizar displacement mapping no Three.js?</h2>
                     </section>
                     <section data-background="images/envmap.png" data-background-repeat="repeat" data-background-size="250px">
     					<h2>Carregando texturas (Mapa de ambiente)</h2>
@@ -195,7 +359,7 @@
                                 metalness: settings.metalness,
 
                                 normalMap: normalMap,
-                                normalScale: new THREE.Vector2( 1, - 1 ),
+                                normalScale: new THREE.Vector2( 1, - 1 ), // why does the normal map require negation in this case?
 
                                 aoMap: aoMap,
                                 aoMapIntensity: 1,
@@ -270,11 +434,15 @@
             	defaultTiming: 120,
             	// Display the page number of the current slide
             	slideNumber: false,
+
+                center: true,
 				dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
