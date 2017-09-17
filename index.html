@@ -42,11 +42,6 @@
                             <small> Adeilson Silva / <a href="https://github.com/AdeilsonSilva">@adeilsonsilva</a> &</small>
                             <small> Rafael Brasileiro / <a href="https://github.com/rafaelbps89">@rafaelbps89</a></small>
                         </p>
-                        <aside class="notes">
-                            Boa tarde!
-                            meu nome é X
-                            hoje vamos apresentar sobre jkhdkasd
-                        </aside>
                     </section>
                 </section>
                 <!-- Aspectos Teóricos -->
@@ -65,14 +60,6 @@
                         </aside>
 					</section>
                     <section data-background-video="images/exp-dm.ogv" data-background-video-loop="loop">
-                        <!-- <p>Szirmay-Kalos <i>et. al.</i></p>
-                        <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-    						&ldquo;
-                                Displacement mapping provides high frequency geometric detail by adding mesostructure properties to the macrostructure model.
-                                This is done by modulating the smooth macrostructure surface by a height map describing the difference between the macrostructure
-                                and the mesostructure models. [1]
-                            &rdquo;
-    					</blockquote> -->
                         <aside class="notes">
                             Dentre as várias formas de aplicar uma textura a um objeto,
                             displacement mapping se caracteriza por modificar a geometria do objeto texturizado.
@@ -162,8 +149,18 @@
                             range [0, 1];
                         </aside>
                     </section>
-                    <!-- <section>
-                        <h2>E a iluminação? Como eu calculo?</h2>
+                    <section>
+                        <h2>Como calcular a Iluminação?</h2>
+                    </section>
+						<!-- Colocar parte teórica do cálculo da normal da mesoestrutura -->
+					<section>
+                        <img width="343" height="76" data-src="images/normal0.png">
+						<img width="1066" height="174" data-src="images/normal1.png">
+						<img width="1063" height="171" data-src="images/normal2.png">
+                    </section>
+					<section>
+                        <img width="1317" height="174" data-src="images/normal3.png">
+						<img width="701" height="214" data-src="images/normal4.png">
                     </section>
                     <section>
                         <h2>Cálculo da normal da mesosestrutura:</h2>
@@ -175,7 +172,12 @@
                             // get model space normal vector
                             float3 mNormal = normalize(N+t*dhdu+b*dhdv);
     					</code></pre>
-                    </section> -->
+                    </section>
+					<section>
+						<p>Pode-se utilizar um mapa de normais</p>
+						<p class="fragment">RGB: Mapa de normais</p>
+						<p class="fragment">Alpha: Mapa de alturas</p>
+					</section>
                     <section>
                         <h2>Displacement Mapping no Vertex Shader</h2>
 					</section>
@@ -226,8 +228,8 @@
                     <section>
                         <h3>Existem problemas com essa abordagem:</h3>
                         <p class="fragment grow">Necessário realizar busca no mapa de altura.</p>
-                        <p class="fragment grow">Múltiplas soluções para a equação anterior.</p>
-                        <p class="fragment grow">Pontos do mapa de altura podem ser ignorados por não serem processados pelo FS.</p>
+                        <p class="fragment">Múltiplas soluções para a equação anterior.</p>
+                        <p class="fragment">Pontos do mapa de altura podem ser ignorados por não serem processados pelo FS.</p>
                         <p class="fragment grow">Mudança na profundidade do ponto desenhado.</p>
                         <aside class="notes">
                             O que está sendo desenhado é um ponto mais próximo da câmera, então a mudança de profundidade não gera erro
@@ -252,11 +254,34 @@
                         </aside>
 					</section>
                     <section>
-                        <h2>Métodos Não-iterativos</h2>
+                        <h3>Métodos Não-iterativos</h3>
                         <h3>Bump mapping x Parallax mapping</h3>
                         <img height="400" data-src="images/bumpxparallax.png">
                         <aside class="notes">
                             No artigo o autor considera bump um DM extremamente simplificado;
+                        </aside>
+					</section>
+					<section>
+                        <h3>Métodos Não-iterativos</h3>
+                        <h5>Parallax mapping taking into account the slope</h5>
+                        <img data-src="images/parallax1.png">
+                        <p><small>McGuire M. <i>et. al.</i>, "Steep parallax mapping.", I3D Poster 2005</small></p>
+                        <aside class="notes">
+                            Assume altura variando com o mapa de normais em u,v;
+                        </aside>
+					</section>
+					<section>
+                        <h3>Métodos Não-iterativos</h3>
+                        <h5>Parallax mapping taking into account the slope</h5>
+						<pre><code class="hljs" data-trim>
+							View = normalize(View);
+							float4 Normal = tex2D(hMap, uv);
+							float h = Normal.a * SCALE + BIAS;
+							uv += h * Normal.z * View.xy;
+    					</code></pre>
+						<img data-src="images/parallaxfig1.png">
+						<aside class="notes">
+                            Tão simples quanto o original, mas com resultados muito melhores.
                         </aside>
 					</section>
                     <section>
@@ -289,7 +314,7 @@
                         <h3>Métodos Iterativos</h3>
                         <h5>"Quasi-safe" - Linear Search</h5>
                         <img height="400" data-src="images/linear.png">
-                        <p><small>Levoy M., <i>et. al.</i>, "Efficient ray tracing of volume data.", ACM TOG, 1990</small></p>
+                        <p><small>Levoy M., <i>et. al.</i>, "Efficient ray tracing of volume data.", ACM TOG 1990</small></p>
                         <aside class="notes">
                             "quasi-safe" pq depende do tamanho do passo dado;
                         </aside>
@@ -302,6 +327,23 @@
                             A robustez depende do passo, mais passos = maior precisão = maior custo;
                         </aside>
 					</section>
+					<section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>Seguros - Sphere Tracing</h5>
+                        <img width="1003" height="435" data-src="images/st.png">
+						<p><small>Donelly W., "Per pixel displacement mapping with distance functions.", GPU Gems 2005</small></p>
+						<aside class="notes">
+                            Utiliza um mapa de distâncias;
+                        </aside>
+					</section>
+					<section>
+                        <h3>Métodos Iterativos</h3>
+                        <h5>Seguros - Sphere Tracing</h5>
+                        <img width="855" height="518" data-src="images/stf.png">
+						<aside class="notes">
+                            Utiliza um mapa de distâncias;
+                        </aside>
+					</section>
                     <section>
                         <h3>Métodos Combinados</h3>
                         <h5>Relief Mapping</h5>
@@ -311,6 +353,20 @@
                             Primeiro faz o linear, encontra dois pontos e faz o binary;
                         </aside>
 					</section>
+					<section>
+                        <h3>Self-shadowing Computation</h3>
+                        <img width="547" height="446" data-src="images/self.png">
+                        <aside class="notes">
+							Chamando o algoritmo iterativo com o Vetor da luz
+							(apontando do ponto que será shader até a fonte de luz)
+							ao invés de o vetor View
+                        </aside>
+					</section>
+					<section>
+                        <h3>Conclusões</h3>
+                        <p class="fragment">VS silhuetas automaticamente.</p>
+                        <p class="fragment">FS são aproximações.</p>
+                    </section>
                 </section>
                 <!-- Aspectos Práticos -->
                 <section id="pratica">
@@ -320,7 +376,8 @@
                     <section>
                         <h2>Como utilizar displacement mapping no Three.js?</h2>
                     </section>
-                    <section data-background="images/envmap.png" data-background-repeat="repeat" data-background-size="250px">
+                    <!-- <section data-background="images/envmap.png" data-background-repeat="repeat" data-background-size="250px"> -->
+					<section>
     					<h2>Carregando texturas (Mapa de ambiente)</h2>
     					<pre><code class="hljs" data-trim contenteditable>
                             // env map
@@ -336,7 +393,8 @@
                             var reflectionCube = new THREE.CubeTextureLoader().load( urls );
     					</code></pre>
     				</section>
-                    <section data-background="images/texturas.png" data-background-repeat="repeat" data-background-size="400px">
+                    <!-- <section data-background="images/texturas.png" data-background-repeat="repeat" data-background-size="400px"> -->
+					<section>
     					<h2>Carregando texturas</h2>
     					<pre><code class="hljs" data-trim contenteditable>
                             // textures
